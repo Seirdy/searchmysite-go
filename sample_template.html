@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-us" xml:lang="en-us">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>Search</title>
+	<meta name="description" content="Example search template." />
+	<meta name="format-detection" content="telephone=no" />
+</head>
+<body>
+	<header>
+		<nav aria-label="Global">
+			<ul>
+				<li>
+					<a rel="home" href="https://example.com/">Home</a>
+				</li>
+				<li>
+					<a href="/search/">Search</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<h1>Search</h1>
+		<p role="note">This is an example SERP template to use with searchmysite-go.</p>
+		<form action="https://example.com/search/" method="get" role="search">
+			<label for="search">
+				Search this site (powered by the <a rel="nofollow" href="https://searchmysite.net/">Search My Site</a> API):
+			</label>
+			<input id="search" type="search" name="q" spellcheck="true" />
+			<input type="submit" value="search" />
+		</form>
+		<hr />
+		<!-- <p>{{ .TotalResults }} results</p> --> <!--Leave total results out for now, we haven't yet implemented paging.-->
+		<ol>
+			{{- range .Results }}
+			<li>
+				<a href="{{ .URL }}">
+					<h2>
+						{{- if .Title -}}
+							{{- .Title }}
+						{{- else -}}
+							{{- .URL -}}
+						{{- end -}}
+					</h2></a>
+				<p>{{ printf "%.200s" .Desc }}</p>
+				<!--
+					extracted snippet, with <strong> keyword matches.
+					Consider dropping the double quotes from the <q> with CSS.
+				-->
+				<q cite="{{ .URL }}">
+					{{- $isMatch := false -}}
+					{{- range .Frag }}
+					{{ if $isMatch }}<strong>{{ end -}}
+					{{- printf . -}}
+					{{- if $isMatch }}</strong>{{ end }}
+					{{- $isMatch = (not $isMatch) -}}
+					{{- end -}}
+				</q>
+			</li>
+			{{- end }}
+		</ol>
+	</main>
+	<hr />
+	<footer>
+		<p>Copyright 2022</p>
+	</footer>
+</body>
+</html>

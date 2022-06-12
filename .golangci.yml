@@ -1,0 +1,264 @@
+---
+issues:
+  exclude-rules:
+    - linters: [gochecknoglobals]
+      # this package is suppopsed to export global vars
+      path: charsets/defaults\.go
+      source: '^var DefaultCharsets'
+  exclude-use-default: false
+  max-issues-per-linter: 0
+linters:
+  disable-all: true
+  enable:
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - containedctx
+    - contextcheck
+    - cyclop
+    - deadcode
+    - decorder
+    - depguard
+    - dogsled
+    - dupl
+    - durationcheck
+    - errcheck
+    - errchkjson
+    - errname
+    - errorlint
+    - execinquery
+    - exhaustive
+    - exhaustruct
+    - exportloopref
+    - forbidigo
+    - forcetypeassert
+    - funlen
+    - gci
+    - gochecknoglobals
+    - gochecknoinits
+    - gocognit
+    - goconst
+    - gocritic
+    - gocyclo
+    - godot
+    - godox
+    - goerr113
+    - gofmt
+    - gofumpt
+    - goheader
+    - goimports
+    - gomnd
+    - gomoddirectives
+    - gomodguard
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - grouper
+    - ifshort
+    - importas
+    - ineffassign
+    - ireturn
+    - lll
+    - maintidx
+    - makezero
+    - misspell
+    - nakedret
+    - nestif
+    - nilerr
+    - nilnil
+    - nlreturn
+    - noctx
+    - nolintlint
+    - nosprintfhostport
+    - prealloc
+    - predeclared
+    - promlinter
+    - revive
+    - rowserrcheck
+    - sqlclosecheck
+    - staticcheck
+    - structcheck
+    - stylecheck
+    - tagliatelle
+    - tenv
+    - testpackage
+    - thelper
+    - tparallel
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - varcheck
+    - wastedassign
+    - whitespace
+    - wrapcheck
+    - wsl
+    # - exhaustivestruct # deprecated
+    # - golint # deprecated
+    # - interfacer # deprecated
+    # - maligned # deprecated
+    # - paralleltest # not always relevant
+    # - scopelint # deprecated
+    # - varnamelen # not always applicable
+linters-settings:
+  cyclop:
+    max-complexity: 9
+    package-average: 5
+  unparam:
+    check-exported: true
+  dupl:
+    threshold: 40
+  errcheck:
+    check-blank: true
+    check-type-assertions: true
+  goconst:
+    numbers: true
+  maintidx:
+    under: 50
+  staticcheck:
+    checks: ["all"]
+    initialisms: []
+  stylecheck:
+    checks: ["all"]
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - style
+      - performance
+      - experimental
+      - opinionated
+    disabled-checks:
+      - ioutilDeprecated # moac should work in Go 1.15+
+    settings:
+      captLocal:
+        paramsOnly: false
+      elseif:
+        skipBalanced: false
+      hugeParam:
+        sizeThreshold: 48
+      rangeExprCopy:
+        sizeThreshold: 64
+        skipTestFuncs: false
+      rangeValCopy:
+        sizeThreshold: 64
+        skipTestFuncs: false
+      nestingReduce:
+        bodyWidth: 3
+      truncateCmp:
+        skipArchDependent: false
+  govet:
+    check-shadowing: true
+    enable-all: true
+  misspell:
+    locale: US
+  nestif:
+    min-complexity: 2
+  nolintlint:
+    allow-leading-space: false
+    allow-unused: false
+    require-explanation: true
+    require-specific: true
+  prealloc:
+    for-loops: true
+    simple: false
+  predeclared:
+    q: true
+  funlen:
+    lines: 40
+    statements: 20
+  revive:
+    confidence: 0.21
+    rules:
+      - name: add-constant
+        arguments:
+          allowInts: "0,1"
+      - name: argument-limit
+        arguments: [4]
+      - name: atomic
+      - name: bare-return
+      - name: blank-imports
+      - name: bool-literal-in-expr
+      - name: call-to-gc
+      - name: cognitive-complexity
+        arguments: [8]
+      - name: confusing-naming
+      - name: confusing-results
+      - name: constant-logical-expr
+      - name: context-as-argument
+      - name: context-keys-type
+      # - name: cyclomatic # redundant with the cyclomatic linter
+      - name: deep-exit
+      - name: defer
+      - name: dot-imports
+      - name: duplicated-imports
+      - name: early-return
+      - name: empty-block
+      - name: empty-lines
+      - name: error-naming
+      - name: error-return
+      - name: error-strings
+      - name: errorf
+      - name: exported
+      # - name: file-header
+      - name: flag-parameter
+      - name: function-result-limit
+        arguments: [4]
+      # - name: function-length # redundant by funlen
+      - name: get-return
+      - name: identical-branches
+      - name: if-return
+      - name: import-shadowing
+      - name: imports-blacklist
+        arguments: ["math/rand"]
+      - name: increment-decrement
+      - name: indent-error-flow
+      # - name: line-length-limit # redundant by lll
+      - name: max-public-structs
+        arguments: [3]
+      - name: modifies-parameter
+      - name: modifies-value-receiver
+      - name: nested-structs
+      - name: package-comments
+      - name: range
+      - name: range-val-in-closure
+      - name: receiver-naming
+      - name: redefines-builtin-id
+      - name: string-of-int
+      # - name: string-format
+      - name: struct-tag
+      - name: superfluous-else
+      - name: time-naming
+      - name: unconditional-recursion
+      - name: var-declaration
+      - name: var-naming
+      - name: unexported-naming
+      - name: unexported-return
+      - name: unhandled-error
+        arguments:
+          - fmt.Printf
+          - fmt.Print
+          - fmt.Println
+          - fmt.Fprintf
+          - fmt.Fprint
+      - name: unnecessary-stmt
+      - name: unreachable-code
+      - name: unused-parameter
+      - name: unused-receiver
+      - name: useless-break
+      - name: waitgroup-by-value
+  gosec:
+    config:
+      global:
+        audit: enabled
+  wsl:
+    force-case-trailing-whitespace: 2
+    # force-short-decl-cuddling: true
+run:
+  deadline: 1m
+  skip-dirs-use-default: true
+  modules-download-mode: readonly
+  skip-files: []
+
+output:
+  sort-results: true
