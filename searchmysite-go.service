@@ -1,0 +1,63 @@
+[Unit]
+Description=searchmysite-go search daemon
+After=network-online.target
+StartLimitInterval=0
+
+[Service]
+DynamicUser=yes
+
+# set up a chroot
+# the chroot just has the binary, an html template, and basics for networking
+RuntimeDirectory=searchmysite-go  # creates /run/searchmysite-go
+RootDirectory=/run/searchmysite-go
+BindReadOnlyPaths=/usr/local/bin/searchmysite-go:/searchmysite-go
+BindReadOnlyPaths=/var/www/seirdy.one/search/index.html:/index.html
+BindReadOnlyPaths=/run/systemd/resolve/stub-resolv.conf:/etc/resolv.conf
+BindReadOnlyPaths=/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem:/etc/ssl/certs/ca-certificates.crt
+
+ExecStart=/searchmysite-go seirdy.one /index.html
+Restart=always
+RestartSec=5
+
+PrivateDevices=true
+PrivateTmp=yes
+PrivateUsers=yes
+
+IPAddressDeny=any
+IPAddressAllow=localhost
+IPAddressAllow=104.21.27.43
+IPAddressAllow=172.65.168.229
+IPAddressAllow=2606:4700:3031::/32
+IPAddressAllow=2606:4700:3033::/32
+
+CapabilityBoundingSet=
+DevicePolicy=strict
+DeviceAllow=/dev/stdin r
+LockPersonality=true
+MemoryDenyWriteExecute=true
+NoNewPrivileges=true
+RestrictAddressFamilies=AF_INET6 AF_INET
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+RemoveIPC=true
+
+ProtectHome=yes
+ProtectProc=invisible
+ProcSubset=pid
+ProtectControlGroups=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectClock=true
+ProtectHostname=true
+
+ProtectSystem=strict
+UMask=0077
+
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@clock @debug @module @mount @reboot @swap @resources @cpu-emulation @obsolete @raw-io @obsolete @keyring @privileged
+
+[Install]
+WantedBy=multi-user.target
